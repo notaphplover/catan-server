@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  postgres:
+    container_name: catan_server_postgres
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+    networks:
+      - catan
+    ports:
+      - "${PG_PORT_OUTER}:5432"
+
+networks:
+  catan:
+    driver: bridge
