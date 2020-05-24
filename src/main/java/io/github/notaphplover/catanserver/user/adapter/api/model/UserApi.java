@@ -1,6 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.api.model;
 
-public class UserApi {
+public class UserApi implements IUserApi {
     private String username;
 
     private String password;
