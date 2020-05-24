@@ -16,6 +16,14 @@ public class UserDb {
 
   private String username;
 
+  public UserDb(Long id) {
+    this.id = id;
+  }
+
+  public UserDb() {
+    this(null); 
+  }
+
   public Long getId() {
     return id;
   }
