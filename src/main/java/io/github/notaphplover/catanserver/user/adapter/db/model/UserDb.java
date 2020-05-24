@@ -1,14 +1,12 @@
-package io.github.notaphplover.catanserver.user.adapter.model;
+package io.github.notaphplover.catanserver.user.adapter.db.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import io.github.notaphplover.catanserver.user.domain.model.IUser;
-
 @Entity
-public class User implements IUser {
+public class UserDb {
     
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
