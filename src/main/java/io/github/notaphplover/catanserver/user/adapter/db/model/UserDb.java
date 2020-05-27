@@ -8,14 +8,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(
-  uniqueConstraints=
-      @UniqueConstraint(columnNames={ "username" })
-)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class UserDb {
-    
+
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   private String passwordHash;
@@ -27,7 +24,7 @@ public class UserDb {
   }
 
   public UserDb() {
-    this(null); 
+    this(null);
   }
 
   public Long getId() {
@@ -39,7 +36,7 @@ public class UserDb {
   }
 
   public String getUsername() {
-      return username;
+    return username;
   }
 
   public void setUsername(String username) {
@@ -49,5 +46,4 @@ public class UserDb {
   public void setPasswordHash(String passwordHash) {
     this.passwordHash = passwordHash;
   }
-
 }

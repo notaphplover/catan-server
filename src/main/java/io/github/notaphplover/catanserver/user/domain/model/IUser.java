@@ -1,14 +1,13 @@
 package io.github.notaphplover.catanserver.user.domain.model;
 
 public interface IUser {
-    Long getId();
+  Long getId();
 
-    String getPasswordHash();
+  String getPasswordHash();
 
-    String getUsername();
+  String getUsername();
 
-    void setPasswordHash(String passwordHash);
+  void setPasswordHash(String passwordHash);
 
-    void setUsername(String username);
-
+  void setUsername(String username);
 }

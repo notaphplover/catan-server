@@ -8,13 +8,11 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(UserDb.class)
 public abstract class UserDb_ {
 
-	public static volatile SingularAttribute<UserDb, Long> id;
-	public static volatile SingularAttribute<UserDb, String> passwordHash;
-	public static volatile SingularAttribute<UserDb, String> username;
+  public static volatile SingularAttribute<UserDb, Long> id;
+  public static volatile SingularAttribute<UserDb, String> passwordHash;
+  public static volatile SingularAttribute<UserDb, String> username;
 
-	public static final String ID = "id";
-	public static final String PASSWORD_HASH = "passwordHash";
-	public static final String USERNAME = "username";
-
+  public static final String ID = "id";
+  public static final String PASSWORD_HASH = "passwordHash";
+  public static final String USERNAME = "username";
 }
-

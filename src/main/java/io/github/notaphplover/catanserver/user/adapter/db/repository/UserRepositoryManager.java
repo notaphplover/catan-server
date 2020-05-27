@@ -1,50 +1,51 @@
 package io.github.notaphplover.catanserver.user.adapter.db.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Service;
-
 import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.User;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.port.UserCreationQueryToUserCreationQueryDbPort;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserRepositoryManager {
-    
-    private CrudRepository<UserDb, Long> innerRepository;
 
-    private UserCreationQueryToUserCreationQueryDbPort userCreationQueryToUserCreationQueryDbPort;
+  private CrudRepository<UserDb, Long> innerRepository;
 
-    public UserRepositoryManager(CrudRepository<UserDb, Long> innerRepository, UserCreationQueryToUserCreationQueryDbPort userCreationQueryToUserCreationQueryDbPort) {
-        this.innerRepository = innerRepository;
-        this.userCreationQueryToUserCreationQueryDbPort = userCreationQueryToUserCreationQueryDbPort;
-    }
+  private UserCreationQueryToUserCreationQueryDbPort userCreationQueryToUserCreationQueryDbPort;
 
-    public IUser create(UserCreationQuery query) {
-        UserCreationQueryDb queryDb = userCreationQueryToUserCreationQueryDbPort.transform(query);
-        
-        UserDb userDb = getUserDbFromUserCreationQueryDb(queryDb);
+  public UserRepositoryManager(
+      CrudRepository<UserDb, Long> innerRepository,
+      UserCreationQueryToUserCreationQueryDbPort userCreationQueryToUserCreationQueryDbPort) {
+    this.innerRepository = innerRepository;
+    this.userCreationQueryToUserCreationQueryDbPort = userCreationQueryToUserCreationQueryDbPort;
+  }
 
-        UserDb userCreated = this.innerRepository.save(userDb);
+  public IUser create(UserCreationQuery query) {
+    UserCreationQueryDb queryDb = userCreationQueryToUserCreationQueryDbPort.transform(query);
 
-        return userDbToUser(userCreated);
-    }
+    UserDb userDb = getUserDbFromUserCreationQueryDb(queryDb);
 
-    private UserDb getUserDbFromUserCreationQueryDb(UserCreationQueryDb queryDb) {
-        UserDb userDb = new UserDb();
-        userDb.setUsername(queryDb.getUsername());
-        userDb.setPasswordHash(queryDb.getPasswordHash());
+    UserDb userCreated = this.innerRepository.save(userDb);
 
-        return userDb;
-    }
+    return userDbToUser(userCreated);
+  }
 
-    private IUser userDbToUser(UserDb userDb) {
-        IUser user = new User(userDb.getId());
-        user.setPasswordHash(userDb.getPasswordHash());
-        user.setUsername(userDb.getUsername());
+  private UserDb getUserDbFromUserCreationQueryDb(UserCreationQueryDb queryDb) {
+    UserDb userDb = new UserDb();
+    userDb.setUsername(queryDb.getUsername());
+    userDb.setPasswordHash(queryDb.getPasswordHash());
 
-        return user;
-    }
+    return userDb;
+  }
+
+  private IUser userDbToUser(UserDb userDb) {
+    IUser user = new User(userDb.getId());
+    user.setPasswordHash(userDb.getPasswordHash());
+    user.setUsername(userDb.getUsername());
+
+    return user;
+  }
 }

@@ -1,43 +1,43 @@
 package io.github.notaphplover.catanserver.user.domain.model;
 
 public class User implements IUser {
-    
-    private Long id;
 
-    private String username;
+  private Long id;
 
-    private String passwordHash;
+  private String username;
 
-    public User(Long id) {
-        this.id = id;
-    }
+  private String passwordHash;
 
-    public User() {
-       this(null); 
-    }
+  public User(Long id) {
+    this.id = id;
+  }
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+  public User() {
+    this(null);
+  }
 
-    @Override
-    public String getPasswordHash() {
-        return passwordHash;
-    }
+  @Override
+  public Long getId() {
+    return id;
+  }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+  @Override
+  public String getPasswordHash() {
+    return passwordHash;
+  }
 
-    @Override
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
+  @Override
+  public String getUsername() {
+    return username;
+  }
 
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  @Override
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+  }
+
+  @Override
+  public void setUsername(String username) {
+    this.username = username;
+  }
 }
