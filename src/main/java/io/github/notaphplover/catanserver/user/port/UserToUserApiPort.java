@@ -12,8 +12,7 @@ public class UserToUserApiPort implements IPort<IUser, IUserApi> {
 
     @Override
     public IUserApi transform(IUser input) {
-        UserApi userApi = new UserApi();
-        userApi.setUsername(input.getUsername());
+        UserApi userApi = new UserApi(input.getUsername());
         
         return userApi;
     }
