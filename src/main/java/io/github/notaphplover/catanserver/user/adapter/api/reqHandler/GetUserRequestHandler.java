@@ -5,21 +5,21 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import io.github.notaphplover.catanserver.common.adapter.api.reqHandler.IReqHandler;
+import io.github.notaphplover.catanserver.common.domain.interactor.IInteractor;
+import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
 import io.github.notaphplover.catanserver.user.adapter.api.request.GetUserRequest;
-import io.github.notaphplover.catanserver.user.domain.interactor.FindUserInteractor;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
-import io.github.notaphplover.catanserver.user.port.UserToUserApiPort;
 
 @Service
 public class GetUserRequestHandler implements IReqHandler<GetUserRequest, Optional<IUserApi>> {
 
-    private FindUserInteractor findUserInteractor;
+    private IInteractor<UserFindQuery, Optional<IUser>> findUserInteractor;
 
-    private UserToUserApiPort userToUserApiPort;
+    private IPort<IUser, IUserApi> userToUserApiPort;
 
-    public GetUserRequestHandler(FindUserInteractor findUserInteractor, UserToUserApiPort userToUserApiPort) {
+    public GetUserRequestHandler(IInteractor<UserFindQuery, Optional<IUser>> findUserInteractor, IPort<IUser, IUserApi> userToUserApiPort) {
         this.findUserInteractor = findUserInteractor;
         this.userToUserApiPort = userToUserApiPort;
     } 

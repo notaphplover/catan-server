@@ -1,9 +1,9 @@
 package io.github.notaphplover.catanserver.common.adapter.api.config;
 
+import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.jwt.JwtManager;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.domain.model.IUserToken;
-import io.github.notaphplover.catanserver.user.port.UserTokenJwtToUserTokenPort;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
   @Autowired private JwtManager jwtTokenUtil;
 
-  @Autowired UserTokenJwtToUserTokenPort userTokenJwtToUserTokenPort;
+  @Autowired IPort<UserTokenJwt, IUserToken> userTokenJwtToUserTokenPort;
 
   @Override
   protected void doFilterInternal(

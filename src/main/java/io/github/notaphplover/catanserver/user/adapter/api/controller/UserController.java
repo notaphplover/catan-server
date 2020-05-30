@@ -1,8 +1,7 @@
 package io.github.notaphplover.catanserver.user.adapter.api.controller;
 
+import io.github.notaphplover.catanserver.common.adapter.api.reqHandler.IReqHandler;
 import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
-import io.github.notaphplover.catanserver.user.adapter.api.reqHandler.GetUserRequestHandler;
-import io.github.notaphplover.catanserver.user.adapter.api.reqHandler.PostUserReqHandler;
 import io.github.notaphplover.catanserver.user.adapter.api.request.GetUserRequest;
 import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequest;
 import io.github.notaphplover.catanserver.user.domain.model.IUserToken;
@@ -24,11 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class UserController {
 
-  private GetUserRequestHandler getUserRequestHandler;
+  private IReqHandler<GetUserRequest, Optional<IUserApi>> getUserRequestHandler;
 
-  private PostUserReqHandler postUserReqHandler;
+  private IReqHandler<PostUserRequest, IUserApi> postUserReqHandler;
 
-  public UserController(GetUserRequestHandler getUserRequestHandler, PostUserReqHandler postUserReqHandler) {
+  public UserController(IReqHandler<GetUserRequest, Optional<IUserApi>> getUserRequestHandler, IReqHandler<PostUserRequest, IUserApi> postUserReqHandler) {
     this.getUserRequestHandler = getUserRequestHandler;
     this.postUserReqHandler = postUserReqHandler;
   }
