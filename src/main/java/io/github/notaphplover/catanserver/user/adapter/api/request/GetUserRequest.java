@@ -1,31 +1,30 @@
 package io.github.notaphplover.catanserver.user.adapter.api.request;
 
+import java.util.Optional;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class GetUserRequest {
 
+  @Min(0)
+  private Optional<Long> id;
+
   @Size(min = 6, max = 128)
   @NotBlank
-  @NotNull
-  private String username;
+  private Optional<String> username;
 
-  @Size(min = 8, max = 128)
-  @NotBlank
-  @NotNull
-  private String password;
-
-  public GetUserRequest(String username, String password) {
+  public GetUserRequest(Optional<Long> id, Optional<String> username) {
+    this.id = id;
     this.username = username;
-    this.password = password;
   }
 
-  public String getUsername() {
+  public Optional<Long> getId() {
+    return id;
+  }
+
+  public Optional<String> getUsername() {
     return username;
-  }
-
-  public String getPassword() {
-    return password;
   }
 }
