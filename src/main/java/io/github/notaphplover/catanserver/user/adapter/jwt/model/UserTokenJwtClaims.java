@@ -1,5 +1,8 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class UserTokenJwtClaims {
   private long id;
 
