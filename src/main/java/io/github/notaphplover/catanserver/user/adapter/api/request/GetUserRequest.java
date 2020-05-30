@@ -1,7 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.api.request;
 
 import java.util.Optional;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

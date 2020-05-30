@@ -5,11 +5,8 @@ import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
 import io.github.notaphplover.catanserver.user.adapter.api.request.GetUserRequest;
 import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequest;
 import io.github.notaphplover.catanserver.user.domain.model.IUserToken;
-
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +24,19 @@ public class UserController {
 
   private IReqHandler<PostUserRequest, IUserApi> postUserReqHandler;
 
-  public UserController(IReqHandler<GetUserRequest, Optional<IUserApi>> getUserRequestHandler, IReqHandler<PostUserRequest, IUserApi> postUserReqHandler) {
+  public UserController(
+      IReqHandler<GetUserRequest, Optional<IUserApi>> getUserRequestHandler,
+      IReqHandler<PostUserRequest, IUserApi> postUserReqHandler) {
     this.getUserRequestHandler = getUserRequestHandler;
     this.postUserReqHandler = postUserReqHandler;
   }
 
   @GetMapping("/me")
   Optional<IUserApi> getMyUser(Authentication authentication) {
-    IUserToken userToken = (IUserToken)authentication.getPrincipal();
-    
-    GetUserRequest getUserRequest = new GetUserRequest(Optional.of(userToken.getId()), Optional.empty());
+    IUserToken userToken = (IUserToken) authentication.getPrincipal();
+
+    GetUserRequest getUserRequest =
+        new GetUserRequest(Optional.of(userToken.getId()), Optional.empty());
 
     return getUser(getUserRequest);
   }
