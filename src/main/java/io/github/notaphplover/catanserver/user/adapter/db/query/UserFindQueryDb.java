@@ -1,13 +1,23 @@
 package io.github.notaphplover.catanserver.user.adapter.db.query;
 
-public class UserFindQueryDb {
-  private String username;
+import java.util.Optional;
 
-  public UserFindQueryDb(String username) {
+public class UserFindQueryDb {
+
+  private Optional<Long> id;
+
+  private Optional<String> username;
+
+  public UserFindQueryDb(Optional<Long> id, Optional<String> username) {
+    this.id = id;
     this.username = username;
   }
 
-  public String getUsername() {
+  public Optional<Long> getId() {
+    return id;
+  }
+
+  public Optional<String> getUsername() {
     return username;
   }
 }

@@ -11,7 +11,7 @@ public class UserFindQueryToUserFindQueryDbPort implements IPort<UserFindQuery, 
   @Override
   public UserFindQueryDb transform(UserFindQuery input) {
 
-    UserFindQueryDb queryDb = new UserFindQueryDb(input.getUsername());
+    UserFindQueryDb queryDb = new UserFindQueryDb(input.getId(), input.getUsername());
 
     return queryDb;
   }

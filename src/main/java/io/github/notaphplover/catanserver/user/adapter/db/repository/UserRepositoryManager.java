@@ -44,13 +44,9 @@ public class UserRepositoryManager {
     UserFindQueryDb queryDb = userFindQueryToUserFindQueryDbPort.transform(query);
 
     Optional<UserDb> userDbCapsule =
-        this.innerRepository.findOne(UserSpecifications.isUserWithUsername(queryDb.getUsername()));
+        this.innerRepository.findOne(UserSpecifications.compliantWith(queryDb));
 
-    if (userDbCapsule.isPresent()) {
-      return Optional.of(userDbToUser(userDbCapsule.get()));
-    } else {
-      return Optional.empty();
-    }
+    return userDbCapsule.map((UserDb userDb) -> userDbToUser(userDb));
   }
 
   private UserDb getUserDbFromUserCreationQueryDb(UserCreationQueryDb queryDb) {
