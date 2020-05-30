@@ -9,9 +9,7 @@ import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
 import io.github.notaphplover.catanserver.user.port.UserCreationQueryToUserCreationQueryDbPort;
 import io.github.notaphplover.catanserver.user.port.UserFindQueryToUserFindQueryDbPort;
-
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,7 +43,8 @@ public class UserRepositoryManager {
   public Optional<IUser> find(UserFindQuery query) {
     UserFindQueryDb queryDb = userFindQueryToUserFindQueryDbPort.transform(query);
 
-    Optional<UserDb> userDbCapsule = this.innerRepository.findOne(UserSpecifications.isUserWithUsername(queryDb.getUsername()));
+    Optional<UserDb> userDbCapsule =
+        this.innerRepository.findOne(UserSpecifications.isUserWithUsername(queryDb.getUsername()));
 
     if (userDbCapsule.isPresent()) {
       return Optional.of(userDbToUser(userDbCapsule.get()));

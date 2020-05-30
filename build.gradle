@@ -43,7 +43,11 @@ dependencies {
 }
 
 spotless {
-  java {
+  	java {
+		target project.fileTree(project.rootDir) {
+      		include '**/*.java'
+        	exclude 'src/generated/java'
+        }
     googleJavaFormat()
   }
 }

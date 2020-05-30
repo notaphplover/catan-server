@@ -1,13 +1,13 @@
 package io.github.notaphplover.catanserver.user.domain.query;
 
 public class UserFindQuery {
-    String username;
+  String username;
 
-    public UserFindQuery(String username) {
-        this.username = username;
-    }
+  public UserFindQuery(String username) {
+    this.username = username;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 }
