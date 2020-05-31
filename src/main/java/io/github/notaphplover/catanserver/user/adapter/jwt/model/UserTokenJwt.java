@@ -1,6 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt.model;
 
-public class UserTokenJwt {
+public class UserTokenJwt implements IUserTokenJwt {
   private String subject;
 
   private IUserTokenJwtClaims claims;

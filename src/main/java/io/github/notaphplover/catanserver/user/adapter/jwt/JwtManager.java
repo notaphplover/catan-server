@@ -1,6 +1,7 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt;
 
 import io.github.notaphplover.catanserver.user.adapter.jwt.exception.UnableToGenerateTokenException;
+import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims;
@@ -51,8 +52,8 @@ public class JwtManager implements Serializable {
         .compact();
   }
 
-  public Optional<UserTokenJwt> validateAndGet(String token) {
-    Optional<UserTokenJwt> userTokenJwtCapsule = null;
+  public Optional<IUserTokenJwt> validateAndGet(String token) {
+    Optional<IUserTokenJwt> userTokenJwtCapsule = null;
 
     Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 

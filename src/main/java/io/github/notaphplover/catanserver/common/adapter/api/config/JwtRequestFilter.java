@@ -2,7 +2,7 @@ package io.github.notaphplover.catanserver.common.adapter.api.config;
 
 import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.jwt.JwtManager;
-import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
+import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.domain.model.IUserToken;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -24,7 +24,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
   @Autowired private JwtManager jwtTokenUtil;
 
-  @Autowired IPort<UserTokenJwt, IUserToken> userTokenJwtToUserTokenPort;
+  @Autowired IPort<IUserTokenJwt, IUserToken> userTokenJwtToUserTokenPort;
 
   @Override
   protected void doFilterInternal(
@@ -34,7 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     String jwtToken = null;
 
-    Optional<UserTokenJwt> userTokenJwtCapsule = null;
+    Optional<IUserTokenJwt> userTokenJwtCapsule = null;
 
     if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
       jwtToken = requestTokenHeader.substring(7);
