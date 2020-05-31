@@ -1,8 +1,8 @@
 package io.github.notaphplover.catanserver.user.port;
 
 import io.github.notaphplover.catanserver.common.port.IPort;
+import io.github.notaphplover.catanserver.security.domain.service.IPasswordEncoder;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
-import io.github.notaphplover.catanserver.user.domain.interactor.HashPasswordInteractor;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 public class UserCreationQueryToUserCreationQueryDbPort
     implements IPort<UserCreationQuery, UserCreationQueryDb> {
 
-  private HashPasswordInteractor hashPasswordInteractor;
+  private IPasswordEncoder passwordEncoder;
 
-  public UserCreationQueryToUserCreationQueryDbPort(HashPasswordInteractor hashPasswordInteractor) {
-    this.hashPasswordInteractor = hashPasswordInteractor;
+  public UserCreationQueryToUserCreationQueryDbPort(IPasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   public UserCreationQueryDb transform(UserCreationQuery input) {
 
     String username = input.getUsername();
-    String passwordHash = hashPasswordInteractor.interact(input.getPassword());
+    String passwordHash = passwordEncoder.encode(input.getPassword());
 
     return new UserCreationQueryDb(username, passwordHash);
   }
