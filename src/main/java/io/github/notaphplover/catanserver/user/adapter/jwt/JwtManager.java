@@ -1,6 +1,7 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt;
 
 import io.github.notaphplover.catanserver.user.adapter.jwt.exception.UnableToGenerateTokenException;
+import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims_;
@@ -37,7 +38,7 @@ public class JwtManager implements Serializable {
 
     Map<String, Object> claims = new HashMap<>();
 
-    UserTokenJwtClaims namespaceClaims = new UserTokenJwtClaims(user.getId(), user.getUsername());
+    IUserTokenJwtClaims namespaceClaims = new UserTokenJwtClaims(user.getId(), user.getUsername());
 
     claims.put(CLAIM_NAMESPACE, namespaceClaims);
 
@@ -65,7 +66,7 @@ public class JwtManager implements Serializable {
 
     String username = (String) userTokenClaimsMap.get(UserTokenJwtClaims_.USERNAME);
 
-    UserTokenJwtClaims userTokenClaims = new UserTokenJwtClaims(id, username);
+    IUserTokenJwtClaims userTokenClaims = new UserTokenJwtClaims(id, username);
 
     try {
       userTokenJwtCapsule = Optional.of(new UserTokenJwt(subject, userTokenClaims));

@@ -3,9 +3,9 @@ package io.github.notaphplover.catanserver.user.adapter.jwt.model;
 public class UserTokenJwt {
   private String subject;
 
-  private UserTokenJwtClaims claims;
+  private IUserTokenJwtClaims claims;
 
-  public UserTokenJwt(String subject, UserTokenJwtClaims claims) {
+  public UserTokenJwt(String subject, IUserTokenJwtClaims claims) {
     this.subject = subject;
     this.claims = claims;
   }
@@ -14,7 +14,7 @@ public class UserTokenJwt {
     return subject;
   }
 
-  public UserTokenJwtClaims getClaims() {
+  public IUserTokenJwtClaims getClaims() {
     return claims;
   }
 }
