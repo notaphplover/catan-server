@@ -1,4 +1,4 @@
-package io.github.notaphplover.catanserver.common.adapter.api.config;
+package io.github.notaphplover.catanserver.security.adapter.api.config;
 
 import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.jwt.JwtManager;

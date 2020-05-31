@@ -1,4 +1,4 @@
-package io.github.notaphplover.catanserver.common.adapter.api.config;
+package io.github.notaphplover.catanserver.security.adapter.api.config;
 
 import java.io.IOException;
 import java.io.Serializable;

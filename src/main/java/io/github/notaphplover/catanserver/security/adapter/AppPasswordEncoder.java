@@ -1,26 +1,25 @@
 package io.github.notaphplover.catanserver.security.adapter;
 
+import io.github.notaphplover.catanserver.security.domain.service.IPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.github.notaphplover.catanserver.security.domain.service.IPasswordEncoder;
-
 @Service
 public class AppPasswordEncoder implements IPasswordEncoder {
-    
-    private PasswordEncoder innerPasswordEncoder;
 
-    public AppPasswordEncoder(PasswordEncoder innerPasswordEncoder) {
-        this.innerPasswordEncoder = innerPasswordEncoder;
-    }
+  private PasswordEncoder innerPasswordEncoder;
 
-    @Override
-    public String encode(String password) {
-        return innerPasswordEncoder.encode(password);
-    }
+  public AppPasswordEncoder(PasswordEncoder innerPasswordEncoder) {
+    this.innerPasswordEncoder = innerPasswordEncoder;
+  }
 
-    @Override
-    public boolean validate(String password, String encoded) {
-        return innerPasswordEncoder.matches(password, encoded);
-    }
+  @Override
+  public String encode(String password) {
+    return innerPasswordEncoder.encode(password);
+  }
+
+  @Override
+  public boolean validate(String password, String encoded) {
+    return innerPasswordEncoder.matches(password, encoded);
+  }
 }
