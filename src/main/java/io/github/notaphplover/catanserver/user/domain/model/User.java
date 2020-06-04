@@ -17,6 +17,17 @@ public class User implements IUser {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof IUser)) {
+      return false;
+    }
+
+    return ((IUser) obj).getId() == getId()
+        && ((IUser) obj).getPasswordHash().equals(getPasswordHash())
+        && ((IUser) obj).getUsername().equals(getUsername());
+  }
+
+  @Override
   public Long getId() {
     return id;
   }
