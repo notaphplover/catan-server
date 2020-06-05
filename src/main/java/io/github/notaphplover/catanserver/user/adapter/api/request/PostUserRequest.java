@@ -16,6 +16,17 @@ public class PostUserRequest {
   @NotNull
   private String password;
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof PostUserRequest)) {
+      return false;
+    }
+
+    PostUserRequest that = (PostUserRequest) obj;
+
+    return that.getUsername().equals(getUsername()) && that.getPassword().equals(getPassword());
+  }
+
   public String getUsername() {
     return username;
   }
