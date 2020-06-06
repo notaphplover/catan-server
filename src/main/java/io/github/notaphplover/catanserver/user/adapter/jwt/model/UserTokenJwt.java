@@ -16,7 +16,7 @@ public class UserTokenJwt implements IUserTokenJwt {
       return false;
     }
 
-    IUserTokenJwt that = (IUserTokenJwt)obj;
+    IUserTokenJwt that = (IUserTokenJwt) obj;
 
     return that.getSubject().equals(getSubject()) && that.getClaims().equals(getClaims());
   }

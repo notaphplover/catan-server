@@ -14,11 +14,11 @@ public class UserTokenJwtClaims implements IUserTokenJwtClaims {
   }
 
   public boolean equals(Object obj) {
-    if (!(obj instanceof  IUserTokenJwtClaims)) {
+    if (!(obj instanceof IUserTokenJwtClaims)) {
       return false;
     }
 
-    IUserTokenJwtClaims that = (IUserTokenJwtClaims)obj;
+    IUserTokenJwtClaims that = (IUserTokenJwtClaims) obj;
 
     return that.getId() == getId() && that.getUsername().equals(getUsername());
   }
