@@ -10,6 +10,17 @@ public class UserTokenJwt implements IUserTokenJwt {
     this.claims = claims;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof IUserTokenJwt)) {
+      return false;
+    }
+
+    IUserTokenJwt that = (IUserTokenJwt)obj;
+
+    return that.getSubject().equals(getSubject()) && that.getClaims().equals(getClaims());
+  }
+
   public String getSubject() {
     return subject;
   }
