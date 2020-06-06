@@ -27,7 +27,7 @@ public class UserToUserApiPortTest {
     userToUserApiPort = new UserToUserApiPort(jwtManager);
   }
 
-  @DisplayName("PostUserRequestToUserCreationQueryPort.transform")
+  @DisplayName("UserToUserApiPort.transform")
   @Nested
   @TestInstance(TestInstance.Lifecycle.PER_CLASS)
   class Transform {
@@ -38,7 +38,7 @@ public class UserToUserApiPortTest {
           .thenReturn(UserApiFixturesUtils.getUserApiFactory().get().getToken());
     }
 
-    @DisplayName("PostUserRequestToUserCreationQueryPort.transform, when called")
+    @DisplayName("UserToUserApiPort.transform, when called")
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class WhenCalled {
