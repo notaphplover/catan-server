@@ -1,5 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt;
 
+import io.github.notaphplover.catanserver.common.service.IDateService;
 import io.github.notaphplover.catanserver.user.adapter.jwt.exception.UnableToGenerateTokenException;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwtClaims;
@@ -7,16 +8,11 @@ import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims_;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+
 import java.io.Serializable;
-import java.util.AbstractMap;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +24,17 @@ public class JwtManager implements Serializable {
   private static final long serialVersionUID = -2550185165627007488L;
   private static final long JWT_TOKEN_VALIDITY_MS = 24 * 60 * 60 * 1000;
 
-  @Value("${jwt.secret}")
+  private IDateService dateService;
+
+  private JwtParser jwtParser;
+
   private String secret;
+
+  public JwtManager(IDateService dateService, @Value("${jwt.secret}") String secret) {
+    this.dateService = dateService;
+    this.jwtParser = generateJwtParser(dateService, secret);
+    this.secret = secret;
+  }
 
   public String generateToken(IUser user) {
 
@@ -46,8 +51,8 @@ public class JwtManager implements Serializable {
     return Jwts.builder()
         .setClaims(claims)
         .setSubject(user.getUsername())
-        .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY_MS))
+        .setIssuedAt(dateService.getCurrent())
+        .setExpiration(dateService.getWithOffset(JWT_TOKEN_VALIDITY_MS))
         .signWith(SignatureAlgorithm.HS512, secret)
         .compact();
   }
@@ -55,7 +60,7 @@ public class JwtManager implements Serializable {
   public Optional<IUserTokenJwt> validateAndGet(String token) {
     Optional<IUserTokenJwt> userTokenJwtCapsule = null;
 
-    Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    Claims claims = jwtParser.parseClaimsJws(token).getBody();
 
     String subject = claims.getSubject();
 
@@ -83,5 +88,14 @@ public class JwtManager implements Serializable {
     }
 
     return userTokenJwtCapsule;
+  }
+
+  private JwtParser generateJwtParser(IDateService dateService, String secret) {
+    return Jwts.parser().setSigningKey(secret).setClock(new Clock() {
+      @Override
+      public Date now() {
+        return dateService.getCurrent();
+      }
+    });
   }
 }
