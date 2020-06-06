@@ -1,7 +1,9 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt;
 
 import io.github.notaphplover.catanserver.common.service.IDateService;
+import io.github.notaphplover.catanserver.user.adapter.jwt.exception.ExpiredTokenException;
 import io.github.notaphplover.catanserver.user.adapter.jwt.exception.UnableToGenerateTokenException;
+import io.github.notaphplover.catanserver.user.adapter.jwt.exception.WrongSignatureTokenException;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
@@ -9,10 +11,8 @@ import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtCla
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims_;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.jsonwebtoken.*;
-
 import java.io.Serializable;
 import java.util.*;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +24,11 @@ public class JwtManager implements Serializable {
   private static final long serialVersionUID = -2550185165627007488L;
   private static final long JWT_TOKEN_VALIDITY_MS = 24 * 60 * 60 * 1000;
 
-  private IDateService dateService;
+  private final IDateService dateService;
 
-  private JwtParser jwtParser;
+  private final JwtParser jwtParser;
 
-  private String secret;
+  private final String secret;
 
   public JwtManager(IDateService dateService, @Value("${jwt.secret}") String secret) {
     this.dateService = dateService;
@@ -60,7 +60,15 @@ public class JwtManager implements Serializable {
   public Optional<IUserTokenJwt> validateAndGet(String token) {
     Optional<IUserTokenJwt> userTokenJwtCapsule = null;
 
-    Claims claims = jwtParser.parseClaimsJws(token).getBody();
+    Claims claims;
+
+    try {
+      claims = jwtParser.parseClaimsJws(token).getBody();
+    } catch (ExpiredJwtException exception) {
+      throw new ExpiredTokenException(exception);
+    } catch (SignatureException exception) {
+      throw new WrongSignatureTokenException(exception);
+    }
 
     String subject = claims.getSubject();
 
@@ -91,11 +99,14 @@ public class JwtManager implements Serializable {
   }
 
   private JwtParser generateJwtParser(IDateService dateService, String secret) {
-    return Jwts.parser().setSigningKey(secret).setClock(new Clock() {
-      @Override
-      public Date now() {
-        return dateService.getCurrent();
-      }
-    });
+    return Jwts.parser()
+        .setSigningKey(secret)
+        .setClock(
+            new Clock() {
+              @Override
+              public Date now() {
+                return dateService.getCurrent();
+              }
+            });
   }
 }
