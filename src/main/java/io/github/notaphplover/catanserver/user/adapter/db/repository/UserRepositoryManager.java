@@ -7,8 +7,8 @@ import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.User;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
-import io.github.notaphplover.catanserver.user.port.UserCreationQueryToUserCreationQueryDbPort;
-import io.github.notaphplover.catanserver.user.port.UserFindQueryToUserFindQueryDbPort;
+import io.github.notaphplover.catanserver.user.port.db.UserCreationQueryToUserCreationQueryDbPort;
+import io.github.notaphplover.catanserver.user.port.db.UserFindQueryToUserFindQueryDbPort;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 

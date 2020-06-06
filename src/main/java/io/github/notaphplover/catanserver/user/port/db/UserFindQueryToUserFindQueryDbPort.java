@@ -1,4 +1,4 @@
-package io.github.notaphplover.catanserver.user.port;
+package io.github.notaphplover.catanserver.user.port.db;
 
 import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
