@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import io.github.notaphplover.catanserver.common.service.IDateService;
 import io.github.notaphplover.catanserver.user.adapter.jwt.exception.ExpiredTokenException;
+import io.github.notaphplover.catanserver.user.adapter.jwt.exception.WrongSignatureTokenException;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims;
@@ -156,6 +157,38 @@ public class JwtManagerTest {
       @Test
       public void itMustThrowAnExpiredTokenException() {
         assertTrue(result instanceof ExpiredTokenException);
+      }
+    }
+
+    @DisplayName("JwtManager.validateAndGet, when called with an expired token")
+    @Nested
+    @TestInstance(Lifecycle.PER_CLASS)
+    class WhenCalledWithInvalidSignatureToken {
+
+      private IUserTokenJwt expectedUserTokenJwt = null;
+      private Object result = null;
+
+      @BeforeAll
+      public void beforeAll() {
+        IUser user = UserFixturesUtils.getUserFactory().get();
+        expectedUserTokenJwt =
+            new UserTokenJwt(
+                user.getUsername(), new UserTokenJwtClaims(user.getId(), user.getUsername()));
+
+        String token =
+            "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjI1OTE0NTcyNjksImlhdCI6MTU5MTQ1NzI2OX0.TZganHRpzlHMtqp3Mw8soH-L_4oWkTqjv6SMd4i0Uefp9WkEpOFY-tdpYuEAeMU4QTTB4_EJVJViSjD6JlGoDA";
+
+        try {
+          result = jwtManager.validateAndGet(token);
+        } catch (Exception exception) {
+          result = exception;
+        }
+      }
+
+      @DisplayName("It must throw an WrongSignatureTokenException")
+      @Test
+      public void itMustThrowAnExpiredTokenException() {
+        assertTrue(result instanceof WrongSignatureTokenException);
       }
     }
   }
