@@ -5,13 +5,16 @@ import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
 import io.github.notaphplover.catanserver.user.adapter.api.model.UserApi;
 import io.github.notaphplover.catanserver.user.adapter.jwt.JwtManager;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserToUserApiPort implements IPort<IUser, IUserApi> {
 
-  @Autowired private JwtManager jwtManager;
+  private JwtManager jwtManager;
+
+  public UserToUserApiPort(JwtManager jwtManager) {
+    this.jwtManager = jwtManager;
+  }
 
   @Override
   public IUserApi transform(IUser input) {
