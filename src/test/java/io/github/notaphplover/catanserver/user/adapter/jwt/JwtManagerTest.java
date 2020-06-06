@@ -7,17 +7,17 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import io.github.notaphplover.catanserver.common.service.IDateService;
+import io.github.notaphplover.catanserver.user.adapter.jwt.exception.ExpiredTokenException;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
+import java.util.Date;
+import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
-
-import java.util.Date;
-import java.util.Optional;
 
 @DisplayName("JwtManagerTest tests")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -67,9 +67,9 @@ public class JwtManagerTest {
 
       @BeforeAll
       public void beforeAll() {
-        expectedToken = "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjI1OTE0NTcyNjksImlhdCI6MTU5MTQ1NzI2OX0.nba3v2euix03fuIoPKUkA7kd3itK_hHzpOFbLspuELaJ1i27xv9lPEVBZYqsRxezu7ASklfzYStuakuMmFBNTQ";
-        result =
-          jwtManager.generateToken(UserFixturesUtils.getUserFactory().get());
+        expectedToken =
+            "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjI1OTE0NTcyNjksImlhdCI6MTU5MTQ1NzI2OX0.nba3v2euix03fuIoPKUkA7kd3itK_hHzpOFbLspuELaJ1i27xv9lPEVBZYqsRxezu7ASklfzYStuakuMmFBNTQ";
+        result = jwtManager.generateToken(UserFixturesUtils.getUserFactory().get());
       }
 
       @DisplayName("It must return the expected token")
@@ -78,7 +78,6 @@ public class JwtManagerTest {
         assertEquals(expectedToken, result);
       }
     }
-
   }
 
   @DisplayName("JwtManager.validateAndGet")
@@ -110,21 +109,54 @@ public class JwtManagerTest {
       @BeforeAll
       public void beforeAll() {
         IUser user = UserFixturesUtils.getUserFactory().get();
-        expectedUserTokenJwt = new UserTokenJwt(user.getUsername(), new UserTokenJwtClaims(user.getId(), user.getUsername()));
+        expectedUserTokenJwt =
+            new UserTokenJwt(
+                user.getUsername(), new UserTokenJwtClaims(user.getId(), user.getUsername()));
 
-        String token = "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjI1OTE0NTcyNjksImlhdCI6MTU5MTQ1NzI2OX0.nba3v2euix03fuIoPKUkA7kd3itK_hHzpOFbLspuELaJ1i27xv9lPEVBZYqsRxezu7ASklfzYStuakuMmFBNTQ";
+        String token =
+            "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjI1OTE0NTcyNjksImlhdCI6MTU5MTQ1NzI2OX0.nba3v2euix03fuIoPKUkA7kd3itK_hHzpOFbLspuELaJ1i27xv9lPEVBZYqsRxezu7ASklfzYStuakuMmFBNTQ";
 
-        result =
-          jwtManager.validateAndGet(token);
+        result = jwtManager.validateAndGet(token);
       }
 
       @DisplayName("It must return the expected user token")
       @Test
       public void itMustReturnAUserTokenJwt() {
-        assertTrue(((Optional<?>)result).isPresent());
-        assertEquals(expectedUserTokenJwt, ((Optional<?>)result).get());
+        assertTrue(((Optional<?>) result).isPresent());
+        assertEquals(expectedUserTokenJwt, ((Optional<?>) result).get());
       }
     }
 
+    @DisplayName("JwtManager.validateAndGet, when called with an expired token")
+    @Nested
+    @TestInstance(Lifecycle.PER_CLASS)
+    class WhenCalledWithExpiredToken {
+
+      private IUserTokenJwt expectedUserTokenJwt = null;
+      private Object result = null;
+
+      @BeforeAll
+      public void beforeAll() {
+        IUser user = UserFixturesUtils.getUserFactory().get();
+        expectedUserTokenJwt =
+            new UserTokenJwt(
+                user.getUsername(), new UserTokenJwtClaims(user.getId(), user.getUsername()));
+
+        String token =
+            "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjAsImlhdCI6MH0.xCdtZKeEj3kvGwuISn4A6hljigiXtKqCl7yGH2IYPaSjnXvSAwFG8vUxOQu9dRNW2FVT0Rzne97EZXrZvWOEHg";
+
+        try {
+          result = jwtManager.validateAndGet(token);
+        } catch (Exception exception) {
+          result = exception;
+        }
+      }
+
+      @DisplayName("It must throw an ExpiredTokenException")
+      @Test
+      public void itMustThrowAnExpiredTokenException() {
+        assertTrue(result instanceof ExpiredTokenException);
+      }
+    }
   }
 }
