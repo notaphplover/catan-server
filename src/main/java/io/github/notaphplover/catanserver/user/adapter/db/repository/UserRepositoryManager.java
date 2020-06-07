@@ -1,14 +1,12 @@
 package io.github.notaphplover.catanserver.user.adapter.db.repository;
 
+import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
-import io.github.notaphplover.catanserver.user.domain.model.User;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
-import io.github.notaphplover.catanserver.user.port.db.UserCreationQueryToUserCreationQueryDbPort;
-import io.github.notaphplover.catanserver.user.port.db.UserFindQueryToUserFindQueryDbPort;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +15,20 @@ public class UserRepositoryManager {
 
   private IUserRepository innerRepository;
 
-  private UserCreationQueryToUserCreationQueryDbPort userCreationQueryToUserCreationQueryDbPort;
+  private IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort;
 
-  private UserFindQueryToUserFindQueryDbPort userFindQueryToUserFindQueryDbPort;
+  private IPort<UserDb, IUser> userDbToUserPort;
+
+  private IPort<UserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort;
 
   public UserRepositoryManager(
       IUserRepository innerRepository,
-      UserCreationQueryToUserCreationQueryDbPort userCreationQueryToUserCreationQueryDbPort,
-      UserFindQueryToUserFindQueryDbPort userFindQueryToUserFindQueryDbPort) {
+      IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort,
+      IPort<UserDb, IUser> userDbToUserPort,
+      IPort<UserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort) {
     this.innerRepository = innerRepository;
     this.userCreationQueryToUserCreationQueryDbPort = userCreationQueryToUserCreationQueryDbPort;
+    this.userDbToUserPort = userDbToUserPort;
     this.userFindQueryToUserFindQueryDbPort = userFindQueryToUserFindQueryDbPort;
   }
 
@@ -37,7 +39,7 @@ public class UserRepositoryManager {
 
     UserDb userCreated = this.innerRepository.save(userDb);
 
-    return userDbToUser(userCreated);
+    return userDbToUserPort.transform(userCreated);
   }
 
   public Optional<IUser> find(UserFindQuery query) {
@@ -46,7 +48,7 @@ public class UserRepositoryManager {
     Optional<UserDb> userDbCapsule =
         this.innerRepository.findOne(UserSpecifications.compliantWith(queryDb));
 
-    return userDbCapsule.map((UserDb userDb) -> userDbToUser(userDb));
+    return userDbCapsule.map((UserDb userDb) -> userDbToUserPort.transform(userDb));
   }
 
   private UserDb getUserDbFromUserCreationQueryDb(UserCreationQueryDb queryDb) {
@@ -55,13 +57,5 @@ public class UserRepositoryManager {
     userDb.setPasswordHash(queryDb.getPasswordHash());
 
     return userDb;
-  }
-
-  private IUser userDbToUser(UserDb userDb) {
-    IUser user = new User(userDb.getId());
-    user.setPasswordHash(userDb.getPasswordHash());
-    user.setUsername(userDb.getUsername());
-
-    return user;
   }
 }
