@@ -11,6 +11,18 @@ public class UserCreationQueryDb {
     this.passwordHash = passwordHash;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof UserCreationQueryDb)) {
+      return false;
+    }
+
+    UserCreationQueryDb that = (UserCreationQueryDb) obj;
+
+    return that.getUsername().equals(getUsername())
+        && that.getPasswordHash().equals(getPasswordHash());
+  }
+
   public String getUsername() {
     return username;
   }
