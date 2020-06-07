@@ -1,8 +1,6 @@
-package io.github.notaphplover.catanserver.user.adapter.model;
+package io.github.notaphplover.catanserver.user.adapter.api.model;
 
 import io.github.notaphplover.catanserver.common.FixtureFactory;
-import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
-import io.github.notaphplover.catanserver.user.adapter.api.model.UserApi;
 
 public class UserApiFixturesFactory extends FixtureFactory<IUserApi> {
 

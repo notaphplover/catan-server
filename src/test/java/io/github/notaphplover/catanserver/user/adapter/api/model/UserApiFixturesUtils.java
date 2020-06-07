@@ -1,8 +1,6 @@
-package io.github.notaphplover.catanserver.user.adapter.model;
+package io.github.notaphplover.catanserver.user.adapter.api.model;
 
 import io.github.notaphplover.catanserver.common.IFixtureFactory;
-import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
-import io.github.notaphplover.catanserver.user.adapter.api.model.UserApi;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
 
