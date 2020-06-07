@@ -14,7 +14,7 @@ public class UserDbFixturesUtils {
     UserDb userDb = new UserDb(user.getId());
     userDb.setUsername(user.getUsername());
     userDb.setPasswordHash(
-        "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoic2FtcGxlczMiLCJleHAiOjU5NTkwOTQwMzE4LCJpYXQiOjE1OTA4NTM5MTh9.yJbuBMOoujDDWS0teH1orAhkulpCBsAiU5ydIr_Yfy_Y-9MpKKrpctS7WeFn1QzRXgVXGvsZon0Jr7ZnkrmAUg");
+        "$2a$10$a0ATFPbhB7CM6bDQL7/sjO0v4WGUKo0B.Pj/KqwmwNhXA.6Vb.JEO");
 
     return userDb;
   }
