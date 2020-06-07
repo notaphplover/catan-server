@@ -13,6 +13,17 @@ public class UserFindQueryDb {
     this.username = username;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof UserFindQueryDb)) {
+      return false;
+    }
+
+    UserFindQueryDb that = (UserFindQueryDb) obj;
+
+    return that.getId() == getId() && that.getUsername().equals(getUsername());
+  }
+
   public Optional<Long> getId() {
     return id;
   }
