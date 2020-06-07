@@ -13,8 +13,7 @@ public class UserDbFixturesUtils {
 
     UserDb userDb = new UserDb(user.getId());
     userDb.setUsername(user.getUsername());
-    userDb.setPasswordHash(
-        "$2a$10$a0ATFPbhB7CM6bDQL7/sjO0v4WGUKo0B.Pj/KqwmwNhXA.6Vb.JEO");
+    userDb.setPasswordHash("$2a$10$a0ATFPbhB7CM6bDQL7/sjO0v4WGUKo0B.Pj/KqwmwNhXA.6Vb.JEO");
 
     return userDb;
   }
