@@ -11,6 +11,18 @@ public class UserToken implements IUserToken {
     this.username = username;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+
+    if (!(obj instanceof IUserToken)) {
+      return false;
+    }
+
+    IUserToken that = (IUserToken) obj;
+
+    return that.getId() == getId() && that.getUsername().equals(getUsername());
+  }
+
   public long getId() {
     return id;
   }
