@@ -30,9 +30,9 @@ public class ControllerExceptionHandler {
   public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
 
-    ErrorResponse errorResponse = new ErrorResponse(pretifyBindingResult(e.getBindingResult()));
+    ErrorResponse errorResponse = new ErrorResponse(prettifyBindingResult(e.getBindingResult()));
 
-    return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(Exception.class)
@@ -40,10 +40,10 @@ public class ControllerExceptionHandler {
 
     ErrorResponse errorResponse = new ErrorResponse(e.toString());
 
-    return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  private String pretifyBindingResult(BindingResult bindingResult) {
+  private String prettifyBindingResult(BindingResult bindingResult) {
     StringBuilder sb = new StringBuilder();
 
     sb.append('[').append(bindingResult.getObjectName()).append(']').append(System.lineSeparator());
