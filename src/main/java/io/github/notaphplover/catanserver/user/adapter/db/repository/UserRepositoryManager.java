@@ -5,6 +5,7 @@ import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
+import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.repository.IUserCreationRepository;
@@ -20,7 +21,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
 
   private IJPAUserRepository innerRepository;
 
-  private IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort;
+  private IPort<IUserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort;
 
   private IPort<UserDb, IUser> userDbToUserPort;
 
@@ -28,7 +29,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
 
   public UserRepositoryManager(
       IJPAUserRepository innerRepository,
-      IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort,
+      IPort<IUserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort,
       IPort<UserDb, IUser> userDbToUserPort,
       IPort<IUserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort) {
     this.innerRepository = innerRepository;
