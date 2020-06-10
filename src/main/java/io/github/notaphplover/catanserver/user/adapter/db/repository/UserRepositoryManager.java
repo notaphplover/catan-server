@@ -7,7 +7,6 @@ import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
-import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.repository.IUserCreationRepository;
 import io.github.notaphplover.catanserver.user.domain.repository.IUserSearchRepository;
 import java.util.Collection;
@@ -38,12 +37,12 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
     this.userFindQueryToUserFindQueryDbPort = userFindQueryToUserFindQueryDbPort;
   }
 
-  public List<IUser> createMany(Collection<UserCreationQuery> queries) {
+  public List<IUser> createMany(Collection<IUserCreationQuery> queries) {
 
     List<UserDb> usersDbToCreate =
         queries.stream()
             .map(
-                (UserCreationQuery query) -> {
+                (IUserCreationQuery query) -> {
                   UserCreationQueryDb queryDb =
                       userCreationQueryToUserCreationQueryDbPort.transform(query);
                   return getUserDbFromUserCreationQueryDb(queryDb);
@@ -60,7 +59,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
     return usersList;
   }
 
-  public IUser createOne(UserCreationQuery query) {
+  public IUser createOne(IUserCreationQuery query) {
     UserCreationQueryDb queryDb = userCreationQueryToUserCreationQueryDbPort.transform(query);
 
     UserDb userDb = getUserDbFromUserCreationQueryDb(queryDb);
