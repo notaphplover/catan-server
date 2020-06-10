@@ -15,13 +15,14 @@ public class UserCreationQuery implements IUserCreationQuery {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof UserCreationQuery)) {
+    if (!(o instanceof IUserCreationQuery)) {
       return false;
     }
 
-    UserCreationQuery that = (UserCreationQuery) o;
+    IUserCreationQuery that = (IUserCreationQuery) o;
 
-    return Objects.equals(username, that.username) && Objects.equals(password, that.password);
+    return Objects.equals(username, that.getUsername())
+        && Objects.equals(password, that.getPassword());
   }
 
   public String getUsername() {
