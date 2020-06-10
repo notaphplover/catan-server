@@ -7,16 +7,16 @@ import java.util.Optional;
 
 public class UserFindQueryFixturesUtils {
 
-  private static IFixtureFactory<UserFindQuery> userFindQueryFactory =
+  private static IFixtureFactory<IUserFindQuery> userFindQueryFactory =
       new UserFindQueryFixturesFactory(getUserFindQuery());
 
-  public static UserFindQuery getUserFindQuery() {
+  public static IUserFindQuery getUserFindQuery() {
     IUser user = UserFixturesUtils.getUser();
 
     return new UserFindQuery(Optional.of(user.getId()), Optional.of(user.getUsername()));
   }
 
-  public static IFixtureFactory<UserFindQuery> getUserFindQueryFactory() {
+  public static IFixtureFactory<IUserFindQuery> getUserFindQueryFactory() {
     return userFindQueryFactory;
   }
 }

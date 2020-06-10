@@ -5,8 +5,8 @@ import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
+import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
-import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
 import io.github.notaphplover.catanserver.user.domain.repository.IUserCreationRepository;
 import io.github.notaphplover.catanserver.user.domain.repository.IUserSearchRepository;
 import java.util.Collection;
@@ -24,13 +24,13 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
 
   private IPort<UserDb, IUser> userDbToUserPort;
 
-  private IPort<UserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort;
+  private IPort<IUserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort;
 
   public UserRepositoryManager(
       IJPAUserRepository innerRepository,
       IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort,
       IPort<UserDb, IUser> userDbToUserPort,
-      IPort<UserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort) {
+      IPort<IUserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort) {
     this.innerRepository = innerRepository;
     this.userCreationQueryToUserCreationQueryDbPort = userCreationQueryToUserCreationQueryDbPort;
     this.userDbToUserPort = userDbToUserPort;
@@ -69,7 +69,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
     return userDbToUserPort.transform(userCreated);
   }
 
-  public Collection<IUser> findMany(UserFindQuery query) {
+  public Collection<IUser> findMany(IUserFindQuery query) {
     UserFindQueryDb queryDb = userFindQueryToUserFindQueryDbPort.transform(query);
 
     List<UserDb> userDbFound =
@@ -80,7 +80,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
         .collect(Collectors.toList());
   }
 
-  public Optional<IUser> findOne(UserFindQuery query) {
+  public Optional<IUser> findOne(IUserFindQuery query) {
     UserFindQueryDb queryDb = userFindQueryToUserFindQueryDbPort.transform(query);
 
     Optional<UserDb> userDbCapsule =

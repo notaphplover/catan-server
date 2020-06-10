@@ -2,7 +2,7 @@ package io.github.notaphplover.catanserver.user.domain.query;
 
 import java.util.Optional;
 
-public class UserFindQuery {
+public class UserFindQuery implements IUserFindQuery {
 
   private Optional<Long> id;
 
@@ -15,12 +15,12 @@ public class UserFindQuery {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof UserFindQuery)) {
+    if (!(obj instanceof IUserFindQuery)) {
       return false;
     }
 
-    return ((UserFindQuery) obj).getId().equals(getId())
-        && ((UserFindQuery) obj).getUsername().equals(getUsername());
+    return ((IUserFindQuery) obj).getId().equals(getId())
+        && ((IUserFindQuery) obj).getUsername().equals(getUsername());
   }
 
   public Optional<Long> getId() {

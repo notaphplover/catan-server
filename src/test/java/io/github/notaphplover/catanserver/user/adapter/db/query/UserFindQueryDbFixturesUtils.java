@@ -1,7 +1,7 @@
 package io.github.notaphplover.catanserver.user.adapter.db.query;
 
 import io.github.notaphplover.catanserver.common.IFixtureFactory;
-import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
+import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
 
 public class UserFindQueryDbFixturesUtils {
@@ -10,7 +10,7 @@ public class UserFindQueryDbFixturesUtils {
       new UserFindQueryDbFixturesFactory(getUserFindQueryDb());
 
   public static UserFindQueryDb getUserFindQueryDb() {
-    UserFindQuery userFindQuery = UserFindQueryFixturesUtils.getUserFindQueryFactory().get();
+    IUserFindQuery userFindQuery = UserFindQueryFixturesUtils.getUserFindQueryFactory().get();
 
     return new UserFindQueryDb(userFindQuery.getId(), userFindQuery.getUsername());
   }

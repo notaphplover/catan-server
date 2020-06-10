@@ -13,7 +13,7 @@ import io.github.notaphplover.catanserver.user.adapter.api.model.UserApiFixtures
 import io.github.notaphplover.catanserver.user.adapter.api.request.GetUserRequestFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
-import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
+import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +28,7 @@ import org.mockito.Mockito;
 @TestInstance(Lifecycle.PER_CLASS)
 public class GetUserRequestHandlerTest {
 
-  private IInteractor<UserFindQuery, Optional<IUser>> findUserInteractor = null;
+  private IInteractor<IUserFindQuery, Optional<IUser>> findUserInteractor = null;
 
   private IPort<IUser, IUserApi> userToUserApiPort = null;
 
@@ -38,7 +38,7 @@ public class GetUserRequestHandlerTest {
   @SuppressWarnings("unchecked")
   public void beforeAll() {
     findUserInteractor =
-        (IInteractor<UserFindQuery, Optional<IUser>>) Mockito.mock(IInteractor.class);
+        (IInteractor<IUserFindQuery, Optional<IUser>>) Mockito.mock(IInteractor.class);
     userToUserApiPort = (IPort<IUser, IUserApi>) Mockito.mock(IPort.class);
 
     getUserRequestHandler = new GetUserRequestHandler(findUserInteractor, userToUserApiPort);

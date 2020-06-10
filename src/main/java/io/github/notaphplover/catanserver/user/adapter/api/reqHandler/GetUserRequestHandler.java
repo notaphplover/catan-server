@@ -6,6 +6,7 @@ import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
 import io.github.notaphplover.catanserver.user.adapter.api.request.GetUserRequest;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
+import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetUserRequestHandler implements IReqHandler<GetUserRequest, Optional<IUserApi>> {
 
-  private IInteractor<UserFindQuery, Optional<IUser>> findUserInteractor;
+  private IInteractor<IUserFindQuery, Optional<IUser>> findUserInteractor;
 
   private IPort<IUser, IUserApi> userToUserApiPort;
 
   public GetUserRequestHandler(
-      IInteractor<UserFindQuery, Optional<IUser>> findUserInteractor,
+      IInteractor<IUserFindQuery, Optional<IUser>> findUserInteractor,
       IPort<IUser, IUserApi> userToUserApiPort) {
     this.findUserInteractor = findUserInteractor;
     this.userToUserApiPort = userToUserApiPort;
