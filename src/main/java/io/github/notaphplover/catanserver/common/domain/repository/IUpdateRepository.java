@@ -1,4 +1,4 @@
-package io.github.notaphplover.catanserver.common.adapter.db.repository;
+package io.github.notaphplover.catanserver.common.domain.repository;
 
 import java.util.Collection;
 
