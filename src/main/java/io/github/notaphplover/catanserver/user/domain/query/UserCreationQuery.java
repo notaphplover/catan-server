@@ -2,7 +2,7 @@ package io.github.notaphplover.catanserver.user.domain.query;
 
 import java.util.Objects;
 
-public class UserCreationQuery {
+public class UserCreationQuery implements IUserCreationQuery {
 
   private final String username;
 
