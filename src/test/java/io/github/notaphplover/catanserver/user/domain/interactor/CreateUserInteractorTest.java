@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import io.github.notaphplover.catanserver.user.adapter.db.repository.UserRepositoryManager;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFixturesUtils;
+import io.github.notaphplover.catanserver.user.domain.repository.IUserCreationRepository;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
@@ -15,16 +15,16 @@ import org.mockito.Mockito;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CreateUserInteractorTest {
 
-  private UserRepositoryManager userRepositoryManager = null;
+  private IUserCreationRepository userCreationRepository = null;
 
   private CreateUserInteractor createUserInteractor = null;
 
   @BeforeAll
   public void beforeAll() {
 
-    userRepositoryManager = Mockito.mock(UserRepositoryManager.class);
+    userCreationRepository = Mockito.mock(IUserCreationRepository.class);
 
-    createUserInteractor = new CreateUserInteractor(userRepositoryManager);
+    createUserInteractor = new CreateUserInteractor(userCreationRepository);
   }
 
   @DisplayName("CreateUserInteractor.interact")
@@ -34,7 +34,7 @@ public class CreateUserInteractorTest {
 
     @BeforeAll
     public void beforeAll() {
-      when(userRepositoryManager.create(any()))
+      when(userCreationRepository.createOne(any()))
           .thenReturn(UserFixturesUtils.getUserFactory().get());
     }
 

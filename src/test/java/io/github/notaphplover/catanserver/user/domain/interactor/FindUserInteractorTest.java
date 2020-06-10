@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import io.github.notaphplover.catanserver.user.adapter.db.repository.UserRepositoryManager;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
+import io.github.notaphplover.catanserver.user.domain.repository.IUserSearchRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -16,16 +16,16 @@ import org.mockito.Mockito;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FindUserInteractorTest {
 
-  private UserRepositoryManager userRepositoryManager = null;
+  private IUserSearchRepository userSearchRepository = null;
 
   private FindUserInteractor findUserInteractor = null;
 
   @BeforeAll
   public void beforeAll() {
 
-    userRepositoryManager = Mockito.mock(UserRepositoryManager.class);
+    userSearchRepository = Mockito.mock(IUserSearchRepository.class);
 
-    findUserInteractor = new FindUserInteractor(userRepositoryManager);
+    findUserInteractor = new FindUserInteractor(userSearchRepository);
   }
 
   @DisplayName("FindUserInteractor.interact")
@@ -35,7 +35,7 @@ public class FindUserInteractorTest {
 
     @BeforeAll
     public void beforeAll() {
-      when(userRepositoryManager.find(any()))
+      when(userSearchRepository.findOne(any()))
           .thenReturn(Optional.of(UserFixturesUtils.getUserFactory().get()));
     }
 

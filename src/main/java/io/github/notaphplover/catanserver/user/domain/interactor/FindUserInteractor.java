@@ -1,23 +1,23 @@
 package io.github.notaphplover.catanserver.user.domain.interactor;
 
 import io.github.notaphplover.catanserver.common.domain.interactor.IInteractor;
-import io.github.notaphplover.catanserver.user.adapter.db.repository.UserRepositoryManager;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQuery;
+import io.github.notaphplover.catanserver.user.domain.repository.IUserSearchRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FindUserInteractor implements IInteractor<UserFindQuery, Optional<IUser>> {
 
-  private UserRepositoryManager userRepositoryManager;
+  private IUserSearchRepository userSearchRepository;
 
-  public FindUserInteractor(UserRepositoryManager userRepositoryManager) {
-    this.userRepositoryManager = userRepositoryManager;
+  public FindUserInteractor(IUserSearchRepository userSearchRepository) {
+    this.userSearchRepository = userSearchRepository;
   }
 
   @Override
   public Optional<IUser> interact(UserFindQuery input) {
-    return userRepositoryManager.find(input);
+    return userSearchRepository.findOne(input);
   }
 }
