@@ -15,7 +15,6 @@ import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserReque
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
-import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFixturesUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -27,7 +26,7 @@ public class PostUserRequestHandlerTest {
 
   private IInteractor<IUserCreationQuery, IUser> createUserInteractor = null;
 
-  private IPort<PostUserRequest, UserCreationQuery> postUserRequestToUserCreationQueryPort;
+  private IPort<PostUserRequest, IUserCreationQuery> postUserRequestToUserCreationQueryPort;
 
   private IPort<IUser, IUserApi> userToUserApiPort = null;
 
@@ -39,7 +38,7 @@ public class PostUserRequestHandlerTest {
     createUserInteractor = (IInteractor<IUserCreationQuery, IUser>) Mockito.mock(IInteractor.class);
 
     postUserRequestToUserCreationQueryPort =
-        (IPort<PostUserRequest, UserCreationQuery>) Mockito.mock(IPort.class);
+        (IPort<PostUserRequest, IUserCreationQuery>) Mockito.mock(IPort.class);
 
     userToUserApiPort = (IPort<IUser, IUserApi>) Mockito.mock(IPort.class);
 
