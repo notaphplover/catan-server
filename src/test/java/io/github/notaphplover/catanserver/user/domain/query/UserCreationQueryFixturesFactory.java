@@ -2,15 +2,15 @@ package io.github.notaphplover.catanserver.user.domain.query;
 
 import io.github.notaphplover.catanserver.common.FixtureFactory;
 
-public class UserCreationQueryFixturesFactory extends FixtureFactory<UserCreationQuery> {
+public class UserCreationQueryFixturesFactory extends FixtureFactory<IUserCreationQuery> {
 
-  public UserCreationQueryFixturesFactory(UserCreationQuery entity) {
+  public UserCreationQueryFixturesFactory(IUserCreationQuery entity) {
     super(entity);
   }
 
   @Override
-  public UserCreationQuery get() {
-    UserCreationQuery entity = getEntity();
+  public IUserCreationQuery get() {
+    IUserCreationQuery entity = getEntity();
 
     return new UserCreationQuery(entity.getUsername(), entity.getPassword());
   }

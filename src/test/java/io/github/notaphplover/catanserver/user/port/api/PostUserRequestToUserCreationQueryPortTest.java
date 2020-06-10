@@ -3,7 +3,7 @@ package io.github.notaphplover.catanserver.user.port.api;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequestFixturesUtils;
-import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
+import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFixturesUtils;
 import org.junit.jupiter.api.*;
 
@@ -40,7 +40,7 @@ public class PostUserRequestToUserCreationQueryPortTest {
       @DisplayName("It must return an UserCreationQuery")
       @Test
       public void itMustReturnACreationQuery() {
-        UserCreationQuery expected =
+        IUserCreationQuery expected =
             UserCreationQueryFixturesUtils.getUserCreationQueryFactory().get();
 
         assertEquals(expected, result);

@@ -1,7 +1,7 @@
 package io.github.notaphplover.catanserver.user.adapter.db.query;
 
 import io.github.notaphplover.catanserver.common.IFixtureFactory;
-import io.github.notaphplover.catanserver.user.domain.query.UserCreationQuery;
+import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
 import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFixturesUtils;
 
 public class UserCreationQueryDbFixturesUtils {
@@ -10,7 +10,7 @@ public class UserCreationQueryDbFixturesUtils {
       new UserCreationQueryDbFixturesFactory(getUserCreationQueryDb());
 
   public static UserCreationQueryDb getUserCreationQueryDb() {
-    UserCreationQuery userCreationQuery =
+    IUserCreationQuery userCreationQuery =
         UserCreationQueryFixturesUtils.getUserCreationQueryFactory().get();
 
     return new UserCreationQueryDb(
