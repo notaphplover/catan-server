@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserRepositoryManager implements IUserCreationRepository, IUserSearchRepository {
 
-  private IUserRepository innerRepository;
+  private IJPAUserRepository innerRepository;
 
   private IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort;
 
@@ -27,7 +27,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
   private IPort<UserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort;
 
   public UserRepositoryManager(
-      IUserRepository innerRepository,
+      IJPAUserRepository innerRepository,
       IPort<UserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort,
       IPort<UserDb, IUser> userDbToUserPort,
       IPort<UserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort) {
