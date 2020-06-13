@@ -27,6 +27,19 @@ public class UserDb {
     this(null);
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof UserDb)) {
+      return false;
+    }
+
+    UserDb that = (UserDb) obj;
+
+    return that.getId() == getId()
+        && that.getPasswordHash().equals(getPasswordHash())
+        && that.getUsername().equals(getUsername());
+  }
+
   public Long getId() {
     return id;
   }
