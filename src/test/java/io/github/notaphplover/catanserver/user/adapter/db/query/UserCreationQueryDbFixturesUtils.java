@@ -1,8 +1,8 @@
 package io.github.notaphplover.catanserver.user.adapter.db.query;
 
 import io.github.notaphplover.catanserver.common.IFixtureFactory;
-import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
-import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFixturesUtils;
+import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
+import io.github.notaphplover.catanserver.user.adapter.db.model.UserDbFixturesUtils;
 
 public class UserCreationQueryDbFixturesUtils {
 
@@ -10,11 +10,10 @@ public class UserCreationQueryDbFixturesUtils {
       new UserCreationQueryDbFixturesFactory(getUserCreationQueryDb());
 
   public static UserCreationQueryDb getUserCreationQueryDb() {
-    IUserCreationQuery userCreationQuery =
-        UserCreationQueryFixturesUtils.getUserCreationQueryFactory().get();
 
-    return new UserCreationQueryDb(
-        userCreationQuery.getUsername(), userCreationQuery.getPassword());
+    UserDb userDb = UserDbFixturesUtils.getUserDb();
+
+    return new UserCreationQueryDb(userDb.getUsername(), userDb.getPasswordHash());
   }
 
   public static IFixtureFactory<UserCreationQueryDb> getUserCreationQueryDbFactory() {
