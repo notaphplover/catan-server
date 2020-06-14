@@ -2,8 +2,7 @@ package io.github.notaphplover.catanserver.user.adapter.db.repository;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
@@ -73,6 +72,13 @@ public class UserRepositoryManagerTest {
       when(userDbToUserPort.transform(any())).thenReturn(UserFixturesUtils.getUserFactory().get());
     }
 
+    @AfterAll
+    public void afterAll() {
+      reset(new IPort[] {userCreationQueryToUserCreationQueryDbPort});
+      reset(new IJPAUserRepository[] {innerRepository});
+      reset(new IPort[] {userDbToUserPort});
+    }
+
     @DisplayName("UserRepositoryManager.createMany, when called")
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -122,6 +128,79 @@ public class UserRepositoryManagerTest {
       public void itMustReturnAnArrayOfUsersCreated() {
         List<IUser> expected =
             Arrays.asList(new IUser[] {UserFixturesUtils.getUserFactory().get()});
+        Assertions.assertEquals(expected, result);
+      }
+    }
+  }
+
+  @DisplayName("UserRepositoryManager.createOne")
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class CreateOne {
+
+    @BeforeAll
+    public void beforeAll() {
+
+      when(userCreationQueryToUserCreationQueryDbPort.transform(any()))
+          .thenReturn(UserCreationQueryDbFixturesUtils.getUserCreationQueryDbFactory().get());
+
+      when(innerRepository.save(any())).thenReturn(UserDbFixturesUtils.getUserDbFactory().get());
+
+      when(userDbToUserPort.transform(any())).thenReturn(UserFixturesUtils.getUserFactory().get());
+    }
+
+    @AfterAll
+    public void afterAll() {
+      reset(new IPort[] {userCreationQueryToUserCreationQueryDbPort});
+      reset(new IJPAUserRepository[] {innerRepository});
+      reset(new IPort[] {userDbToUserPort});
+    }
+
+    @DisplayName("UserRepositoryManager.createOne, when called")
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class WhenCalled {
+
+      Object result;
+
+      @BeforeAll
+      public void beforeAll() {
+        result =
+            userRepositoryManager.createOne(
+                UserCreationQueryFixturesUtils.getUserCreationQueryFactory().get());
+      }
+
+      @DisplayName(
+          "It must call userCreationQueryToUserCreationQueryDbPort.transform with the query received")
+      @Test
+      public void itMustCallUserCreationQueryToUserCreationQueryDbPort() {
+        verify(userCreationQueryToUserCreationQueryDbPort)
+            .transform(eq(UserCreationQueryFixturesUtils.getUserCreationQueryFactory().get()));
+      }
+
+      @DisplayName("It must call innerRepository.save with the user to create")
+      @Test
+      public void itMustCallInnerRepository() {
+
+        UserDb userDbFixture = UserDbFixturesUtils.getUserDbFactory().get();
+        UserDb expected = new UserDb();
+        expected.setPasswordHash(userDbFixture.getPasswordHash());
+        expected.setUsername(userDbFixture.getUsername());
+
+        verify(innerRepository).save(eq(expected));
+      }
+
+      @DisplayName("It must call userDbToUserPort.transform with the users created")
+      @Test
+      public void itMustCallUserDbToUserPort() {
+        verify(userDbToUserPort).transform(eq(UserDbFixturesUtils.getUserDbFactory().get()));
+      }
+
+      @DisplayName("It must return an array of users created")
+      @Test
+      public void itMustReturnAnArrayOfUsersCreated() {
+        IUser expected = UserFixturesUtils.getUserFactory().get();
+
         Assertions.assertEquals(expected, result);
       }
     }
