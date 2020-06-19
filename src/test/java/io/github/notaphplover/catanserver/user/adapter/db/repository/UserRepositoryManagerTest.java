@@ -17,6 +17,7 @@ import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFix
 import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.data.jpa.domain.Specification;
@@ -247,6 +248,7 @@ public class UserRepositoryManagerTest {
       reset(new IPort[] {userFindQueryToUserFindQueryDbPort});
       reset(new IJPAUserRepository[] {innerRepository});
       reset(new IPort[] {userDbToUserPort});
+      reset(new ISpecificationProvider[] {userDbSpecificationProvider});
     }
 
     @DisplayName("UserRepositoryManager.findMany, when called")
@@ -263,7 +265,7 @@ public class UserRepositoryManagerTest {
                 UserFindQueryFixturesUtils.getUserFindQueryFactory().get());
       }
 
-      @DisplayName("It must call innerRepository.saveAll with the spec of users to find")
+      @DisplayName("It must call innerRepository.findAll with the spec of users to find")
       @Test
       public void itMustCallInnerRepository() {
 
@@ -281,6 +283,76 @@ public class UserRepositoryManagerTest {
       public void itMustReturnAnArrayOfUsersFound() {
         List<IUser> expected =
             Arrays.asList(new IUser[] {UserFixturesUtils.getUserFactory().get()});
+        Assertions.assertEquals(expected, result);
+      }
+    }
+  }
+
+  @DisplayName("UserRepositoryManager.findOne")
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class FindOne {
+
+    private Specification<UserDb> userDbSpecificationFixture;
+
+    @BeforeAll
+    @SuppressWarnings("unchecked")
+    public void beforeAll() {
+
+      userDbSpecificationFixture = Mockito.mock(Specification.class);
+
+      when(userFindQueryToUserFindQueryDbPort.transform(any()))
+          .thenReturn(UserFindQueryDbFixturesUtils.getUserFindQueryDbFactory().get());
+
+      when(innerRepository.findOne((Specification<UserDb>) any()))
+          .thenReturn(Optional.of(UserDbFixturesUtils.getUserDbFactory().get()));
+
+      when(userDbToUserPort.transform(any())).thenReturn(UserFixturesUtils.getUserFactory().get());
+
+      when(userDbSpecificationProvider.getCompliantWithSpec(any()))
+          .thenReturn(userDbSpecificationFixture);
+    }
+
+    @AfterAll
+    public void afterAll() {
+      reset(new IPort[] {userFindQueryToUserFindQueryDbPort});
+      reset(new IJPAUserRepository[] {innerRepository});
+      reset(new IPort[] {userDbToUserPort});
+      reset(new ISpecificationProvider[] {userDbSpecificationProvider});
+    }
+
+    @DisplayName("UserRepositoryManager.findOne, when called")
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class WhenCalled {
+
+      Object result;
+
+      @BeforeAll
+      public void beforeAll() {
+        result =
+            userRepositoryManager.findOne(
+                UserFindQueryFixturesUtils.getUserFindQueryFactory().get());
+      }
+
+      @DisplayName("It must call innerRepository.findOne with the spec of users to find")
+      @Test
+      public void itMustCallInnerRepository() {
+
+        verify(innerRepository).findOne(eq(userDbSpecificationFixture));
+      }
+
+      @DisplayName("It must call userDbToUserPort.transform with the users found")
+      @Test
+      public void itMustCallUserDbToUserPort() {
+        verify(userDbToUserPort).transform(eq(UserDbFixturesUtils.getUserDbFactory().get()));
+      }
+
+      @DisplayName("It must return an user found")
+      @Test
+      public void itMustReturnAnUserFound() {
+        Optional<IUser> expected = Optional.of(UserFixturesUtils.getUserFactory().get());
+
         Assertions.assertEquals(expected, result);
       }
     }
