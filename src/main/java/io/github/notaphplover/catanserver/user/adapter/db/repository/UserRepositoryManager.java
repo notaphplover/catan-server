@@ -1,5 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.db.repository;
 
+import io.github.notaphplover.catanserver.common.adapter.db.repository.ISpecificationProvider;
 import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,15 +28,20 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
 
   private IPort<IUserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort;
 
+  private ISpecificationProvider<Specification<UserDb>, UserFindQueryDb>
+      userDbSpecificationProvider;
+
   public UserRepositoryManager(
       IJPAUserRepository innerRepository,
       IPort<IUserCreationQuery, UserCreationQueryDb> userCreationQueryToUserCreationQueryDbPort,
       IPort<UserDb, IUser> userDbToUserPort,
-      IPort<IUserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort) {
+      IPort<IUserFindQuery, UserFindQueryDb> userFindQueryToUserFindQueryDbPort,
+      ISpecificationProvider<Specification<UserDb>, UserFindQueryDb> userDbSpecificationProvider) {
     this.innerRepository = innerRepository;
     this.userCreationQueryToUserCreationQueryDbPort = userCreationQueryToUserCreationQueryDbPort;
     this.userDbToUserPort = userDbToUserPort;
     this.userFindQueryToUserFindQueryDbPort = userFindQueryToUserFindQueryDbPort;
+    this.userDbSpecificationProvider = userDbSpecificationProvider;
   }
 
   public List<IUser> createMany(Collection<IUserCreationQuery> queries) {
@@ -73,7 +80,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
     UserFindQueryDb queryDb = userFindQueryToUserFindQueryDbPort.transform(query);
 
     List<UserDb> userDbFound =
-        this.innerRepository.findAll(UserSpecifications.compliantWith(queryDb));
+        this.innerRepository.findAll(userDbSpecificationProvider.getCompliantWithSpec(queryDb));
 
     return userDbFound.stream()
         .map((UserDb userDb) -> userDbToUserPort.transform(userDb))
@@ -84,7 +91,7 @@ public class UserRepositoryManager implements IUserCreationRepository, IUserSear
     UserFindQueryDb queryDb = userFindQueryToUserFindQueryDbPort.transform(query);
 
     Optional<UserDb> userDbCapsule =
-        this.innerRepository.findOne(UserSpecifications.compliantWith(queryDb));
+        this.innerRepository.findOne(userDbSpecificationProvider.getCompliantWithSpec(queryDb));
 
     return userDbCapsule.map((UserDb userDb) -> userDbToUserPort.transform(userDb));
   }
