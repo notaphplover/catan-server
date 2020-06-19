@@ -133,16 +133,10 @@ public class JwtManagerTest {
     @TestInstance(Lifecycle.PER_CLASS)
     class WhenCalledWithExpiredToken {
 
-      private IUserTokenJwt expectedUserTokenJwt = null;
       private Object result = null;
 
       @BeforeAll
       public void beforeAll() {
-        IUser user = UserFixturesUtils.getUserFactory().get();
-        expectedUserTokenJwt =
-            new UserTokenJwt(
-                user.getUsername(), new UserTokenJwtClaims(user.getId(), user.getUsername()));
-
         String token =
             "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjAsImlhdCI6MH0.xCdtZKeEj3kvGwuISn4A6hljigiXtKqCl7yGH2IYPaSjnXvSAwFG8vUxOQu9dRNW2FVT0Rzne97EZXrZvWOEHg";
 
@@ -165,15 +159,10 @@ public class JwtManagerTest {
     @TestInstance(Lifecycle.PER_CLASS)
     class WhenCalledWithInvalidSignatureToken {
 
-      private IUserTokenJwt expectedUserTokenJwt = null;
       private Object result = null;
 
       @BeforeAll
       public void beforeAll() {
-        IUser user = UserFixturesUtils.getUserFactory().get();
-        expectedUserTokenJwt =
-            new UserTokenJwt(
-                user.getUsername(), new UserTokenJwtClaims(user.getId(), user.getUsername()));
 
         String token =
             "eyJhbGciOiJIUzUxMiJ9.eyJodHRwczovL2dpdGh1Yi5jb20vbm90YXBocGxvdmVyL2NhdGFuLXNlcnZlci8iOnsiaWQiOjEsInVzZXJuYW1lIjoidXNlcm5hbWUifSwic3ViIjoidXNlcm5hbWUiLCJleHAiOjI1OTE0NTcyNjksImlhdCI6MTU5MTQ1NzI2OX0.TZganHRpzlHMtqp3Mw8soH-L_4oWkTqjv6SMd4i0Uefp9WkEpOFY-tdpYuEAeMU4QTTB4_EJVJViSjD6JlGoDA";
