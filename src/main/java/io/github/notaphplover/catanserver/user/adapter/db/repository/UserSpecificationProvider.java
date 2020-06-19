@@ -8,7 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserSpecificationProvider
     implements ISpecificationProvider<Specification<UserDb>, UserFindQueryDb> {
 
