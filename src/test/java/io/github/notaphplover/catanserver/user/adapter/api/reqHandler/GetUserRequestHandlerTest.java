@@ -1,11 +1,12 @@
 package io.github.notaphplover.catanserver.user.adapter.api.reqHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+import io.github.notaphplover.catanserver.common.adapter.api.exception.EntityNotFoundException;
 import io.github.notaphplover.catanserver.common.domain.interactor.IInteractor;
 import io.github.notaphplover.catanserver.common.port.IPort;
 import io.github.notaphplover.catanserver.fixtures.user.adapter.api.model.UserApiFixturesUtils;
@@ -16,11 +17,7 @@ import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;
 
@@ -51,8 +48,6 @@ public class GetUserRequestHandlerTest {
 
     @BeforeAll
     public void beforeAll() {
-      when(findUserInteractor.interact(any()))
-          .thenReturn(Optional.of(UserFixturesUtils.getUserFactory().get()));
       when(userToUserApiPort.transform(any()))
           .thenReturn(UserApiFixturesUtils.getUserApiFactory().get());
     }
@@ -66,8 +61,17 @@ public class GetUserRequestHandlerTest {
 
       @BeforeAll
       public void beforeAll() {
+
+        when(findUserInteractor.interact(any()))
+            .thenReturn(Optional.of(UserFixturesUtils.getUserFactory().get()));
+
         result =
             getUserRequestHandler.handle(GetUserRequestFixturesUtils.getUserRequestFactory().get());
+      }
+
+      @AfterAll
+      public void afterAll() {
+        reset(new IInteractor[] {findUserInteractor});
       }
 
       @DisplayName("It must call FindUserInteractor.interact with the FindUserQuery received")
@@ -89,6 +93,39 @@ public class GetUserRequestHandlerTest {
         Optional<IUserApi> expected = Optional.of(UserApiFixturesUtils.getUserApiFactory().get());
 
         assertEquals(expected, result);
+      }
+    }
+
+    @Nested
+    @DisplayName("GetUserRequestHandler.handle, when called and no user is found")
+    @TestInstance(Lifecycle.PER_CLASS)
+    class WhenCalledAndNoUserIsFound {
+
+      Object result;
+
+      @BeforeAll
+      public void beforeAll() {
+
+        when(findUserInteractor.interact(any())).thenReturn(Optional.empty());
+
+        try {
+          result =
+              getUserRequestHandler.handle(
+                  GetUserRequestFixturesUtils.getUserRequestFactory().get());
+        } catch (EntityNotFoundException e) {
+          result = e;
+        }
+      }
+
+      @AfterAll
+      public void afterAll() {
+        reset(new IInteractor[] {findUserInteractor});
+      }
+
+      @DisplayName("It must throw an EntityNotFoundException")
+      @Test
+      public void itMustThrowAnEntityNotFoundException() {
+        assertTrue(result instanceof EntityNotFoundException);
       }
     }
   }

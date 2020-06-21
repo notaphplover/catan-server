@@ -1,5 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.api.reqHandler;
 
+import io.github.notaphplover.catanserver.common.adapter.api.exception.EntityNotFoundException;
 import io.github.notaphplover.catanserver.common.adapter.api.reqHandler.IReqHandler;
 import io.github.notaphplover.catanserver.common.domain.interactor.IInteractor;
 import io.github.notaphplover.catanserver.common.port.IPort;
@@ -31,6 +32,10 @@ public class GetUserRequestHandler implements IReqHandler<GetUserRequest, Option
     UserFindQuery query = new UserFindQuery(request.getId(), request.getUsername());
 
     Optional<IUser> userFound = findUserInteractor.interact(query);
+
+    if (userFound.isEmpty()) {
+      throw new EntityNotFoundException("User not found");
+    }
 
     return userFound.map((IUser u) -> userToUserApiPort.transform(u));
   }
