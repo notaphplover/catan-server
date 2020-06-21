@@ -10,9 +10,9 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+    compileOnly.extendsFrom annotationProcessor
+    intApiTestImplementation.extendsFrom implementation
+    intApiTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
 repositories {
@@ -40,15 +40,20 @@ dependencies {
     testImplementation('org.mockito:mockito-core:3.3.3')
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     testImplementation('org.junit.platform:junit-platform-commons:1.6.2')
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+
+    intApiTestImplementation('com.jayway.jsonpath:json-path:2.4.0')
+    intApiTestImplementation('org.hamcrest:hamcrest-library:2.2')
+    intApiTestImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    intApiTestImplementation('org.junit.platform:junit-platform-commons:1.6.2')
+    intApiTestImplementation('org.springframework:spring-test:5.2.7.RELEASE')
+    intApiTestImplementation('org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE')
+    intApiTestImplementation('org.springframework.integration:spring-integration-test:5.3.1.RELEASE')
 }
 
 spotless {
     java {
     target project.fileTree(project.rootDir) {
-            include '**/*.java'
+        include '**/*.java'
         exclude 'src/generated/java'
     }
     googleJavaFormat()
@@ -56,16 +61,36 @@ spotless {
 }
 
 sourceSets {
+
     generated {
         java {
             srcDirs = ['src/generated/java']
         }
     }
+
+    intApiTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.intApiTest.output.classesDirs
+    classpath = sourceSets.intApiTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
 }
 
 tasks.withType(JavaCompile) {
     options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
 }
+
+check.dependsOn integrationTest
 
 test {
     useJUnitPlatform()
