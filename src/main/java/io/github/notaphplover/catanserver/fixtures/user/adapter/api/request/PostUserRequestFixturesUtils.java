@@ -1,9 +1,9 @@
 package io.github.notaphplover.catanserver.fixtures.user.adapter.api.request;
 
 import io.github.notaphplover.catanserver.fixtures.IFixtureFactory;
+import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserCreationQueryFixturesUtils;
 import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequest;
 import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
-import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserCreationQueryFixturesUtils;
 
 public class PostUserRequestFixturesUtils {
 

@@ -1,8 +1,8 @@
 package io.github.notaphplover.catanserver.fixtures.user.adapter.db.query;
 
 import io.github.notaphplover.catanserver.fixtures.IFixtureFactory;
-import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.fixtures.user.adapter.db.model.UserDbFixturesUtils;
+import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 
 public class UserCreationQueryDbFixturesUtils {

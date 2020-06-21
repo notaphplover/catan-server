@@ -8,14 +8,14 @@ import static org.mockito.Mockito.when;
 
 import io.github.notaphplover.catanserver.common.domain.interactor.IInteractor;
 import io.github.notaphplover.catanserver.common.port.IPort;
-import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
 import io.github.notaphplover.catanserver.fixtures.user.adapter.api.model.UserApiFixturesUtils;
-import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequest;
 import io.github.notaphplover.catanserver.fixtures.user.adapter.api.request.PostUserRequestFixturesUtils;
-import io.github.notaphplover.catanserver.user.domain.model.IUser;
 import io.github.notaphplover.catanserver.fixtures.user.domain.model.UserFixturesUtils;
-import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
 import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserCreationQueryFixturesUtils;
+import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
+import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequest;
+import io.github.notaphplover.catanserver.user.domain.model.IUser;
+import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mockito;

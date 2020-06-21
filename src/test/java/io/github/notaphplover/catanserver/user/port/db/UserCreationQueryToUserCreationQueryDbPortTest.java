@@ -1,9 +1,9 @@
 package io.github.notaphplover.catanserver.user.port.db;
 
-import io.github.notaphplover.catanserver.security.domain.service.IPasswordEncoder;
-import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 import io.github.notaphplover.catanserver.fixtures.user.adapter.db.query.UserCreationQueryDbFixturesUtils;
 import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserCreationQueryFixturesUtils;
+import io.github.notaphplover.catanserver.security.domain.service.IPasswordEncoder;
+import io.github.notaphplover.catanserver.user.adapter.db.query.UserCreationQueryDb;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
