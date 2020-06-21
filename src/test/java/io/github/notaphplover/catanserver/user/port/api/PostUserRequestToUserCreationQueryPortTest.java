@@ -2,9 +2,9 @@ package io.github.notaphplover.catanserver.user.port.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequestFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.adapter.api.request.PostUserRequestFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.query.IUserCreationQuery;
-import io.github.notaphplover.catanserver.user.domain.query.UserCreationQueryFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserCreationQueryFixturesUtils;
 import org.junit.jupiter.api.*;
 
 @DisplayName("PostUserRequestToUserCreationQueryPort tests")

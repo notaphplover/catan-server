@@ -13,7 +13,7 @@ import io.github.notaphplover.catanserver.user.adapter.jwt.model.IUserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwt;
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtClaims;
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
-import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.model.UserFixturesUtils;
 import java.util.Date;
 import java.util.Optional;
 import org.junit.jupiter.api.*;

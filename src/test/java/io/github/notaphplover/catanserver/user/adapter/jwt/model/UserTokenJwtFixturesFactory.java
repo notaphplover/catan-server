@@ -1,6 +1,6 @@
 package io.github.notaphplover.catanserver.user.adapter.jwt.model;
 
-import io.github.notaphplover.catanserver.common.FixtureFactory;
+import io.github.notaphplover.catanserver.fixtures.FixtureFactory;
 
 public class UserTokenJwtFixturesFactory extends FixtureFactory<IUserTokenJwt> {
 

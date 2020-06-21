@@ -1,8 +1,8 @@
 package io.github.notaphplover.catanserver.user.port.db;
 
 import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
-import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDbFixturesUtils;
-import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.adapter.db.query.UserFindQueryDbFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserFindQueryFixturesUtils;
 import org.junit.jupiter.api.*;
 
 @DisplayName("UserFindQueryToUserFindQueryDbPort test")

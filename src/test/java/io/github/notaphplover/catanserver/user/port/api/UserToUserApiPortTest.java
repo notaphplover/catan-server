@@ -5,9 +5,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
-import io.github.notaphplover.catanserver.user.adapter.api.model.UserApiFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.adapter.api.model.UserApiFixturesUtils;
 import io.github.notaphplover.catanserver.user.adapter.jwt.JwtManager;
-import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.model.UserFixturesUtils;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 

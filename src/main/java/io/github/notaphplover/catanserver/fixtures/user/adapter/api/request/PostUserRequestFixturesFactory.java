@@ -1,6 +1,7 @@
-package io.github.notaphplover.catanserver.user.adapter.api.request;
+package io.github.notaphplover.catanserver.fixtures.user.adapter.api.request;
 
-import io.github.notaphplover.catanserver.common.FixtureFactory;
+import io.github.notaphplover.catanserver.fixtures.FixtureFactory;
+import io.github.notaphplover.catanserver.user.adapter.api.request.PostUserRequest;
 
 public class PostUserRequestFixturesFactory extends FixtureFactory<PostUserRequest> {
 

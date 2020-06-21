@@ -1,8 +1,9 @@
-package io.github.notaphplover.catanserver.user.adapter.db.query;
+package io.github.notaphplover.catanserver.fixtures.user.adapter.db.query;
 
-import io.github.notaphplover.catanserver.common.IFixtureFactory;
+import io.github.notaphplover.catanserver.fixtures.IFixtureFactory;
+import io.github.notaphplover.catanserver.user.adapter.db.query.UserFindQueryDb;
 import io.github.notaphplover.catanserver.user.domain.query.IUserFindQuery;
-import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserFindQueryFixturesUtils;
 
 public class UserFindQueryDbFixturesUtils {
 

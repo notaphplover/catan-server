@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import io.github.notaphplover.catanserver.user.domain.model.IUser;
-import io.github.notaphplover.catanserver.user.domain.model.UserFixturesUtils;
-import io.github.notaphplover.catanserver.user.domain.query.UserFindQueryFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.model.UserFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.query.UserFindQueryFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.repository.IUserSearchRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.*;

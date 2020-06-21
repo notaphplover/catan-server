@@ -1,6 +1,7 @@
-package io.github.notaphplover.catanserver.user.adapter.db.model;
+package io.github.notaphplover.catanserver.fixtures.user.adapter.db.model;
 
-import io.github.notaphplover.catanserver.common.FixtureFactory;
+import io.github.notaphplover.catanserver.fixtures.FixtureFactory;
+import io.github.notaphplover.catanserver.user.adapter.db.model.UserDb;
 
 public class UserDbFixturesFactory extends FixtureFactory<UserDb> {
 

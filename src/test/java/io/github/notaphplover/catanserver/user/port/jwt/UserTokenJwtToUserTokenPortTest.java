@@ -2,7 +2,7 @@ package io.github.notaphplover.catanserver.user.port.jwt;
 
 import io.github.notaphplover.catanserver.user.adapter.jwt.model.UserTokenJwtFixturesUtils;
 import io.github.notaphplover.catanserver.user.domain.model.IUserToken;
-import io.github.notaphplover.catanserver.user.domain.model.UserTokenFixturesUtils;
+import io.github.notaphplover.catanserver.fixtures.user.domain.model.UserTokenFixturesUtils;
 import org.junit.jupiter.api.*;
 
 @DisplayName("UserTokenJwtToUserTokenPort test")

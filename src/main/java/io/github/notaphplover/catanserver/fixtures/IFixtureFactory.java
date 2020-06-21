@@ -1,4 +1,4 @@
-package io.github.notaphplover.catanserver.common;
+package io.github.notaphplover.catanserver.fixtures;
 
 public interface IFixtureFactory<T> {
 
