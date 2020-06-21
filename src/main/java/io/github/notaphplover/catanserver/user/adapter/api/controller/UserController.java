@@ -32,7 +32,7 @@ public class UserController {
   }
 
   @GetMapping("/me")
-  Optional<IUserApi> getMyUser(Authentication authentication) {
+  public Optional<IUserApi> getMyUser(Authentication authentication) {
     IUserToken userToken = (IUserToken) authentication.getPrincipal();
 
     GetUserRequest getUserRequest =
@@ -41,12 +41,12 @@ public class UserController {
     return getUser(getUserRequest);
   }
 
-  Optional<IUserApi> getUser(@Valid GetUserRequest userRequest) {
-    return getUserRequestHandler.handle(userRequest);
+  @PostMapping()
+  public IUserApi newUser(@Valid @RequestBody PostUserRequest postUserRequest) {
+    return this.postUserReqHandler.handle(postUserRequest);
   }
 
-  @PostMapping()
-  IUserApi newUser(@Valid @RequestBody PostUserRequest postUserRequest) {
-    return this.postUserReqHandler.handle(postUserRequest);
+  private Optional<IUserApi> getUser(@Valid GetUserRequest userRequest) {
+    return getUserRequestHandler.handle(userRequest);
   }
 }
