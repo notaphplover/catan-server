@@ -1,5 +1,6 @@
 package io.github.notaphplover.catanserver.common.adapter.api.exceptionHandler;
 
+import io.github.notaphplover.catanserver.common.adapter.api.exception.EntityNotFoundException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,13 @@ class ErrorResponse {
 
 @ControllerAdvice(annotations = Controller.class)
 public class ControllerExceptionHandler {
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+    ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+  }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
