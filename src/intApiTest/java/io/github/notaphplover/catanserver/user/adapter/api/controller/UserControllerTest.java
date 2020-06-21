@@ -1,6 +1,9 @@
 package io.github.notaphplover.catanserver.user.adapter.api.controller;
 
+import static org.mockito.Mockito.reset;
+
 import io.github.notaphplover.catanserver.CatanServerApplication;
+import io.github.notaphplover.catanserver.common.adapter.api.exception.EntityNotFoundException;
 import io.github.notaphplover.catanserver.common.adapter.api.reqHandler.IReqHandler;
 import io.github.notaphplover.catanserver.fixtures.user.adapter.api.model.UserApiFixturesUtils;
 import io.github.notaphplover.catanserver.user.adapter.api.model.IUserApi;
@@ -30,12 +33,6 @@ public class UserControllerTest {
 
   @MockBean private IReqHandler<GetUserRequest, Optional<IUserApi>> getUserRequestHandler;
 
-  @BeforeAll
-  public void beforeAll() throws Exception {
-    Mockito.when(getUserRequestHandler.handle(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(UserApiFixturesUtils.getUserApiFactory().get()));
-  }
-
   @DisplayName("UserController.getMyUser")
   @Nested
   @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -53,6 +50,9 @@ public class UserControllerTest {
       @BeforeAll
       public void beforeAll() throws Exception {
 
+        Mockito.when(getUserRequestHandler.handle(ArgumentMatchers.any()))
+            .thenReturn(Optional.of(UserApiFixturesUtils.getUserApiFactory().get()));
+
         token = UserApiFixturesUtils.getUserApiFactory().get().getToken();
 
         result =
@@ -61,6 +61,11 @@ public class UserControllerTest {
                     MockMvcRequestBuilders.get("/users/me")
                         .header("Authorization", "Bearer " + token))
                 .andReturn();
+      }
+
+      @AfterAll
+      public void afterAll() {
+        reset(new IReqHandler[] {getUserRequestHandler});
       }
 
       @DisplayName("It must return its user")
@@ -72,6 +77,51 @@ public class UserControllerTest {
         MockMvcResultMatchers.status().isOk().match(result);
         MockMvcResultMatchers.jsonPath("$.username").value(userApi.getUsername()).match(result);
         MockMvcResultMatchers.jsonPath("$.token").value(userApi.getToken()).match(result);
+      }
+    }
+
+    @DisplayName("UserController.getMyUser, when called, and no user is found")
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class WhenCalledAndNoUserIsFound {
+
+      private String errorMessage;
+
+      private MvcResult result;
+
+      private String token;
+
+      @BeforeAll
+      public void beforeAll() throws Exception {
+
+        errorMessage = "Test when a user is not found";
+
+        Mockito.when(getUserRequestHandler.handle(ArgumentMatchers.any()))
+            .thenThrow(new EntityNotFoundException(errorMessage));
+
+        token = UserApiFixturesUtils.getUserApiFactory().get().getToken();
+
+        result =
+            mockMvc
+                .perform(
+                    MockMvcRequestBuilders.get("/users/me")
+                        .header("Authorization", "Bearer " + token))
+                .andReturn();
+      }
+
+      @AfterAll
+      public void afterAll() {
+        reset(new IReqHandler[] {getUserRequestHandler});
+      }
+
+      @DisplayName("It must return a NOT_FOUND response")
+      @Test
+      public void itMustReturnANotFoundResponse() throws Exception {
+
+        IUserApi userApi = UserApiFixturesUtils.getUserApiFactory().get();
+
+        MockMvcResultMatchers.status().isNotFound().match(result);
+        MockMvcResultMatchers.jsonPath("$.msg").value(errorMessage).match(result);
       }
     }
   }
