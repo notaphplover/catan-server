@@ -75,7 +75,7 @@ sourceSets {
 
 }
 
-task integrationTest(type: Test) {
+task integrationApiTest(type: Test) {
     description = 'Runs integration tests.'
     group = 'verification'
 
@@ -90,7 +90,7 @@ tasks.withType(JavaCompile) {
     options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
 }
 
-check.dependsOn integrationTest
+check.dependsOn integrationApiTest
 
 test {
     useJUnitPlatform()
