@@ -43,7 +43,7 @@ public class UserController {
 
   @PostMapping()
   public IUserApi newUser(@Valid @RequestBody PostUserRequest postUserRequest) {
-    return this.postUserReqHandler.handle(postUserRequest);
+    return postUserReqHandler.handle(postUserRequest);
   }
 
   private Optional<IUserApi> getUser(@Valid GetUserRequest userRequest) {
