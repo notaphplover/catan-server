@@ -52,6 +52,7 @@ dependencies {
     intApiTestImplementation('org.mockito:mockito-core:3.3.3')
     intApiTestImplementation('org.springframework:spring-test:5.2.7.RELEASE')
     intApiTestImplementation('org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE')
+    intApiTestImplementation('org.testcontainers:postgresql:1.14.3')
 
     intDbTestImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     intDbTestImplementation('org.junit.platform:junit-platform-commons:1.6.2')
