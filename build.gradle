@@ -11,8 +11,12 @@ sourceCompatibility = '11'
 
 configurations {
     compileOnly.extendsFrom annotationProcessor
+
     intApiTestImplementation.extendsFrom implementation
     intApiTestRuntimeOnly.extendsFrom runtimeOnly
+
+    intDbTestImplementation.extendsFrom implementation
+    intDbTestImplementation.extendsFrom runtimeOnly
 }
 
 repositories {
@@ -45,9 +49,14 @@ dependencies {
     intApiTestImplementation('org.hamcrest:hamcrest-library:2.2')
     intApiTestImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     intApiTestImplementation('org.junit.platform:junit-platform-commons:1.6.2')
+    intApiTestImplementation('org.mockito:mockito-core:3.3.3')
     intApiTestImplementation('org.springframework:spring-test:5.2.7.RELEASE')
     intApiTestImplementation('org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE')
-    intApiTestImplementation('org.springframework.integration:spring-integration-test:5.3.1.RELEASE')
+
+    intDbTestImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+    intDbTestImplementation('org.junit.platform:junit-platform-commons:1.6.2')
+    intDbTestImplementation('org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE')
+    intDbTestImplementation('org.testcontainers:postgresql:1.14.3')
 }
 
 spotless {
@@ -73,10 +82,15 @@ sourceSets {
         runtimeClasspath += sourceSets.main.output
     }
 
+    intDbTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+
 }
 
 task integrationApiTest(type: Test) {
-    description = 'Runs integration tests.'
+    description = 'Runs integration API tests.'
     group = 'verification'
 
     testClassesDirs = sourceSets.intApiTest.output.classesDirs
@@ -86,11 +100,24 @@ task integrationApiTest(type: Test) {
     useJUnitPlatform()
 }
 
+task integrationDbTest(type: Test) {
+    description = 'Runs integration DB tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.intDbTest.output.classesDirs
+    classpath = sourceSets.intDbTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+}
+
+
 tasks.withType(JavaCompile) {
     options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
 }
 
 check.dependsOn integrationApiTest
+check.dependsOn integrationDbTest
 
 test {
     useJUnitPlatform()
